@@ -5,7 +5,7 @@ from .forms import MDEditorModelForm, ArticleTypeForm
 from .models import Article, ArticleType
 from apps.cmdb.api import pages
 import markdown
-from django import forms
+from django.db.models import Q
 
 
 @login_required()
@@ -13,8 +13,8 @@ from django import forms
 def article(request):
     article_type_all = ArticleType.objects.all()
     id = request.GET.get("id")
-    page_len = request.GET.get('page_len', '')
     article_type_name = request.GET.get('article_type', '')
+    keyword = request.GET.get('keyword', '')
 
     if article_type_name:
         article_type_obj = ArticleType.objects.get(name=article_type_name)
@@ -22,8 +22,16 @@ def article(request):
     else:
         article_list = Article.objects.all().order_by("-id")
 
+    # 搜索功能
+    if keyword:
+        article_list = article_list.filter(
+            Q(name__contains=keyword) |
+            Q(author__contains=keyword) |
+            Q(commit_time__contains=keyword) |
+            Q(content__contains=keyword))
+
     # 分写的对象
-    article_list, p, assets, page_range, current_page, show_first, show_end, end_page = pages(article_list, request)
+    article_list, p, article_list, page_range, current_page, show_first, show_end, end_page = pages(article_list, request)
     return render(request, "wiki/article.html", locals())
 
 
