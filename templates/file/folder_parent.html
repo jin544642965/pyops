@@ -167,7 +167,9 @@ uploader.on( 'fileQueued', function( file ) {
                             </th>
                                     <th>类型</th>
                                     <th>我的资料库</th>
-                                    <th class="text-center">更新时间</th>
+                                     <th>大小</th>
+                                    <th>更新时间</th>
+                                    <th class="text-center">功能</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -179,7 +181,8 @@ uploader.on( 'fileQueued', function( file ) {
                                         {% if content.type == 'folder' %}
                                         <td><i class="fa fa-folder-open-o" aria-hidden="true"></i></td>
                                         <td><a id="{{content.uuid}}" href="/file/folder/{{parent}}/{{document}}" >{{ document }}</a></td>
-
+                                            <td>{{content.document_size}}</td>
+                                        <td>{{content.document_time}}</td>
                                         <td class="text-center" data-editable='false'>
                                             <div align="center">
                                             <a id="folder_parent_edit_{{content.uuid}}" style="display: block; float:left; margin: auto;" href="javascript:void(0)"  onclick="folder_parent_edit(this.id);" class="btn btn-sm btn-info" >重命名</a>
@@ -189,7 +192,8 @@ uploader.on( 'fileQueued', function( file ) {
                                         {% else %}
                                         <td><i class="fa fa-file-o" aria-hidden="true"></i></td>
                                         <td><a id="{{content.uuid}}" href="javascript:void(0)"  onclick="download_file(this.id);" >{{ document }}</a></td>
-
+                                        <td>{{content.document_size}}</td>
+                                        <td>{{content.document_time}}</td>
                                         <td class="text-center" data-editable='false'>
                                             <div align="center">
                                             <a id="folder_parent_edit_{{content.uuid}}" style="display: block; float:left; margin: auto;" href="javascript:void(0)"  onclick="folder_parent_edit(this.id);" class="btn btn-sm btn-info" >重命名</a>
@@ -198,7 +202,9 @@ uploader.on( 'fileQueued', function( file ) {
                                             <a id="folder_parent_download_{{content.uuid}}" style="display: block; float:left; margin: auto;" href="javascript:void(0)"  onclick="download_file(this.id);" class="btn btn-sm btn-info" >下载</a>
                                             </div>
                                         </td>
+
                                         {% endif %}
+
 
 
                                         </tr>

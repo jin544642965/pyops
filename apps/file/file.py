@@ -2,7 +2,6 @@ from django.http import HttpResponseRedirect, FileResponse
 from django.shortcuts import HttpResponse, redirect
 from django.http import JsonResponse
 from django.shortcuts import render
-from django.urls import reverse
 from .forms import FolderForm
 from django.contrib.auth.decorators import login_required
 from apps.accounts.permission import permission_verify
@@ -11,6 +10,29 @@ import shutil
 from django.views.decorators.csrf import csrf_exempt
 import uuid
 from django.utils.http import urlquote
+from apps.cmdb.api import pages
+import time
+
+
+def sizeof_fmt(num, suffix='B'):
+    for unit in ['','Ki','Mi','Gi','Ti','Pi','Ei','Zi']:
+        if abs(num) < 1024.0:
+            return "%3.1f%s%s" % (num, unit, suffix)
+        num /= 1024.0
+    return "%.1f%s%s" % (num, 'Yi', suffix)
+
+
+def TimeStampToTime(timestamp):
+    timeStruct = time.localtime(timestamp)
+    return time.strftime('%Y-%m-%d %H:%M:%S',timeStruct)
+
+
+def getdirsize(dir):
+   size = 0
+   for root, dirs, files in os.walk(dir):
+      size += sum([os.path.getsize(os.path.join(root, name)) for name in files])
+   return size
+
 
 @login_required()
 @permission_verify()
@@ -27,22 +49,35 @@ def folder(request):
 
     folder_dict = {}
     for folder in document_list:
-        if os.path.isdir(physical_path + '/' + folder):
+        folderpath = physical_path + '/' + folder
+        if os.path.isdir(folderpath):
             namespace = uuid.NAMESPACE_URL
             document_uuid = uuid.uuid3(namespace, folder)
-            folder_dict[folder] = {'type': 'folder', 'uuid': document_uuid}
+
+            # 获取文件夹的大小，时间
+            document_size = getdirsize(folderpath)
+            document_size = sizeof_fmt(document_size)
+            document_time = os.path.getctime(folderpath)
+            document_time = TimeStampToTime(document_time)
+
+            # folder_dict[folder] = {'type': 'folder', 'uuid': document_uuid}
+            folder_dict[folder]  = {'type': 'folder', 'uuid': document_uuid, 'document_size': document_size,
+                               'document_time': document_time}
     document_dict = folder_dict
+
+    # 分写的对象
+    document_list, p, document_list, page_range, current_page, show_first, show_end, end_page = pages(document_list, request)
     return render(request, 'file/folder.html', locals())
 
 
 @login_required()
 @permission_verify()
 def folder_del(request):
-    print(7777777777777)
+
     if request.method == 'GET':
         document = request.GET.get('document')
         physical_path = "uploads/dropbox/" + document
-        print(document,8888)
+
         if os.path.isdir(physical_path):
             shutil.rmtree(physical_path)
         elif os.path.isfile(physical_path):
@@ -122,17 +157,33 @@ def folder_parent(request, parent):
     file_dict = {}
 
     for file in document_list:
+        filepath = physical_path + '/' + file
         if os.path.isfile(physical_path + '/' + file):
             namespace = uuid.NAMESPACE_URL
             document_uuid = uuid.uuid3(namespace,file)
-            file_dict[file] = {'type': 'file', 'uuid': document_uuid}
+
+            # 获取文件的大小
+            document_size = os.path.getsize(filepath)
+            document_size = sizeof_fmt(document_size)
+            # 获取文件的修改时间
+            document_time = os.path.getmtime(filepath)
+            document_time = TimeStampToTime(document_time)
+
+            file_dict[file] = {'type': 'file', 'uuid': document_uuid, 'document_size': document_size, 'document_time': document_time}
 
     folder_dict = {}
     for folder in document_list:
-        if os.path.isdir(physical_path + '/' + folder):
+        folderpath = physical_path + '/' + folder
+        if os.path.isdir(folderpath):
             namespace = uuid.NAMESPACE_URL
             document_uuid = uuid.uuid3(namespace, folder)
-            folder_dict[folder] = {'type':'folder', 'uuid': document_uuid}
+
+            # 获取文件夹的大小，时间
+            document_size = getdirsize(folderpath)
+            document_size = sizeof_fmt(document_size)
+            document_time = os.path.getctime(folderpath)
+            document_time = TimeStampToTime(document_time)
+            folder_dict[folder] = {'type': 'folder', 'uuid': document_uuid, 'document_size': document_size, 'document_time': document_time}
 
     document_dict = folder_dict.copy()
     document_dict.update(file_dict)

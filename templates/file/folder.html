@@ -110,7 +110,9 @@
                             </th>
                                     <th>类型</th>
                                     <th>我的资料库</th>
-                                    <th class="text-center">更新时间</th>
+                                    <th>大小</th>
+                                    <th>更新时间</th>
+                                    <th class="text-center">功能</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -119,6 +121,8 @@
                                         <td><input type="checkbox" id="id_{{document}}" class="i-checks" value="id_{{ document }}" name="id_{{document}}" /></td>
                                         <td><i class="fa fa-folder-o" aria-hidden="true"></i></td>
                                         <td><a id="{{content.uuid}}" href="/file/folder/{{document}}">{{ document }}</a></td>
+                                        <td>{{content.document_size}}</td>
+                                        <td>{{content.document_time}}</td>
                                         <td class="text-center" data-editable='false'>
                                             <div align="center">
                                             <a id="folder_edit_{{content.uuid}}" style="display: block; float:left; margin: auto;" href="javascript:void(0)" onclick="folder_edit(this.id);" class="btn btn-sm btn-info" >重命名</a>
