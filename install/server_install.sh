@@ -1,0 +1,1 @@
+wssh --xsrf=False --maxconn=100 --port=8888 --log-file-prefix=/var/log/webssh.log &

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title> WebSSH</title>
+    <link href="/static/webssh/img/favicon.png" rel="icon" type="image/png">
+    <link href="/static/webssh/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/static/webssh/css/xterm.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/static/webssh/css/fullscreen.min.css" rel="stylesheet" type="text/css"/>
+    <style>
+      .row {
+        margin-top: 20px;
+        margin-bottom: 10px;
+      }
+
+      .container {
+        margin-top: 20px;
+      }
+
+      .btn {
+        margin-top: 10px;
+      }
+
+      .btn-danger {
+        margin-left: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+{#      <form id="connect" action="" style="display: none" method="post" enctype="multipart/form-data"{% if debug %} novalidate{% endif %}>#}
+      <form id="connect" action=""  method="post" {% if debug %} novalidate{% endif %}>
+
+      {% csrf_token %}
+        <div class="row">
+          <div class="col">
+            <label for="Hostname">Hostname</label>
+            <input class="form-control" type="text" id="hostname" name="hostname" value="" required>
+          </div>
+          <div class="col">
+            <label for="Port">Port</label>
+            <input class="form-control" type="number" id="port" name="port" value="" min=1 max=65535>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label for="Username">Username</label>
+            <input class="form-control" type="text" id="username" name="username" value="" required>
+          </div>
+          <div class="col">
+            <label for="privatekey">Private Key</label>
+            <textarea class="form-control" type="text" id="privatekey" name="privatekey" >{{ host.account.private_key }}</textarea>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label for="Password">Password</label>
+            <input class="form-control" id="password" type="password" name="password" value="">
+          </div>
+          <div class="col">
+            If Private Key is chosen, password will be used to decrypt the Private Key if it is encrypted, otherwise used as the password of username.
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Connect</button>
+        <button type="reset" class="btn btn-danger">Reset</button>
+      </form>
+
+    </div>
+
+    <div class="container">
+      <div id="status" style="color: red;"></div>
+      <div id="terminal"></div>
+    </div>
+
+    <script src="/static/webssh/js/jquery.min.js"></script>
+    <script src="/static/webssh/js/popper.min.js"></script>
+    <script src="/static/webssh/js/bootstrap.min.js"></script>
+    <script src="/static/webssh/js/xterm.min.js"></script>
+    <script src="/static/webssh/js/fullscreen.min.js"></script>
+    <script src="/static/webssh/js/main.js"></script>
+  <script>
+      $(document).ready(function(){
+      var path = 'http://' + window.location.host + ':8888';
+{#      var path = 'https://' + window.location.host + ':4433';#}
+      $('#hostname').val("{{ host.intranet_ip }}");
+      $('#username').val("{{ host.account.username }}");
+      $('#password').val("{{ host.account.password }}");
+      $('#port').val("{{ host.account.port }}");
+   
+
+      $('#connect').attr("action", path).submit();
+
+    });
+  </script>
+  </body>
+</html>

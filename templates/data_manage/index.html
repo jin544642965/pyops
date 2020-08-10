@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block self_head_css_js %}
+{% endblock %}
+{% block content %}
+<script>
+    window.onload=init;
+    function init() {
+        showhide(2);
+    }
+    function showhide(n) {
+        var box = document.getElementById("data_manage");
+        box.className="active";
+
+    }
+</script>
+
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+                <div class="box box-default">
+                    <form action="" method="post" id="sync_form">
+                        {% csrf_token %}
+                    <div class="box-header" >
+                         <div class="input-group inline-group col-md-4" >
+                             {{ form.mobile_no }}
+                            <div class="input-group-btn">
+                                <button  type="submit" class="btn btn-primary" >
+                                    &nbsp;同步&nbsp;
+                                </button>
+                            </div>
+                        </div>
+                    </div><!-- /.box-header -->
+                    </form>
+                  <div class="box-body">
+                      <!--{{sync_process}}-->
+                      {% for i in sync_process %}
+                         <p>{{i}}</p>
+                      {% endfor %}
+
+                  </div><!-- /.box-body -->
+                </div><!-- /.box -->
+        </section>
+        <!-- /.content -->
+
+    </div>
+
+{% endblock %}

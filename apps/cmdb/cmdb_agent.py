@@ -16,14 +16,14 @@ description: 客户端采用linux自带python2.7
 
 VERSION = '0.1.0'
 
-app_token = "AT_ZnmHbwWYzrxjIEyQni4miU72dcLy43WW"
+app_token = "qw_FrxjIEyQniSAFASFSff72dcIYNnngf"
 
 # 获取当前脚本的目录
 pwd_dir = os.path.dirname(os.path.abspath(__file__))
 
 # cmdb server url
 
-server_url = 'http://pyops.ehuzhu.com/cmdb/api'
+server_url = 'http://demo-pyops.fskangda.com/cmdb/api'
 
 # logging.basicConfig(level=logging.INFO,
 #                     format='%(asctime)s [%(levelname)s] %(message)s',
