@@ -62,15 +62,26 @@
       <ul class="sidebar-menu" id="sidebar-menu">
         <li id="navi" style="display: none"><a href="{% url 'navi' %}"><i class="fa fa-link"></i> <span>站点导航</span></a></li>
         <li class="treeview" id="cmdb" style="display: none">
-          <a href="#"><i class="fa fa-database"></i> <span>资产管理</span>
+          <a href="#"><i class="fa fa-database"></i> <span>cmdb</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-              <li id="asset" style="display: block"><a href="{% url 'cmdb' %}"><span>&nbsp;&nbsp;&nbsp;&nbsp;主机管理</span></a></li>
+              <li id="host" style="display: block"><a href="{% url 'host' %}"><span>&nbsp;&nbsp;&nbsp;&nbsp;主机管理</span></a></li>
               <li id="idc" style="display: block"><a href="{% url 'idc' %}"><span>&nbsp;&nbsp;&nbsp;&nbsp;机房管理</span></a></li>
               <li id="group" style="display: block"><a href="{% url 'group' %}"><span>&nbsp;&nbsp;&nbsp;&nbsp;属组管理</span></a></li>
+          </ul>
+        </li>
+
+        <li class="treeview" id="app_manage" style="display: none">
+          <a href="#"><i class="fa fa-database"></i> <span>应用管理</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+              <li id="certificate" style="display: block"><a href="{% url 'certificate' %}"><span>&nbsp;&nbsp;&nbsp;&nbsp;ssh密钥</span></a></li>
           </ul>
         </li>
 
@@ -85,7 +96,8 @@
               <li id="article_type" style="display: block"><a href="{% url 'article_type' %}"><span>&nbsp;&nbsp;&nbsp;&nbsp;文章分类</span></a></li>
           </ul>
         </li>
-       <li class="treeview" id="file" style="display: none">
+
+       <li class="treeview" id="netdisk" style="display: none">
           <a href="#"><i class="fa fa-database"></i> <span>网盘</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
@@ -96,6 +108,16 @@
           </ul>
         </li>
 
+        <li class="treeview" id="data_manage" style="display: none">
+          <a href="#"><i class="fa fa-database"></i> <span>数据管理</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+                <li id="sync_data" style="display: block"><a href="{% url 'sync_data' %}"><span>&nbsp;&nbsp;&nbsp;&nbsp;同步数据</span></a></li>
+          </ul>
+        </li>
 
 
         <li class="treeview" id="accounts" style="display: none">

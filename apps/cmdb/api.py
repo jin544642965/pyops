@@ -3,9 +3,11 @@
 # 2017.3 update by guohongze@126.com
 from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
-from apps.cmdb.models import Host, HostGroup
-from lib.common import token_verify
+from apps.cmdb.models import Host
 import json
+from lib.common import app_token
+
+
 
 
 def page_list_return(total, current=1):
@@ -67,54 +69,55 @@ def get_object(model, **kwargs):
     return the_object
 
 
-@token_verify()
-def get_host(request):
-    d = []
-    try:
-        hostname = request.GET['name']
-    except Exception as msg:
-        return HttpResponse(msg, status=404)
-    if hostname == "all":
-        all_host = Host.objects.all()
-        ret_host = {'hostname': hostname, 'members': []}
-        for h in all_host:
-            ret_h = {'hostname': h.hostname, 'ipaddr': h.ip}
-            ret_host['members'].append(ret_h)
-        d.append(ret_host)
-        return HttpResponse(json.dumps(d))
-    else:
-        try:
-            host = Host.objects.get(hostname=hostname)
-            data = {'hostname': host.hostname, 'ip': host.ip}
-            return HttpResponse(json.dumps({'status': 0, 'message': 'ok', 'data': data}))
-        except Exception as msg:
-            return HttpResponse(msg, status=404)
 
 
-@token_verify()
-def get_group(request):
-    if request.method == 'GET':
-        d = []
-        try:
-            group_name = request.GET['name']
-        except Exception as msg:
-            return HttpResponse(msg)
-        if group_name == "all":
-            host_groups = HostGroup.objects.all()
-            for hg in host_groups:
-                ret_hg = {'host_group': hg.name, 'members': []}
-                members = Host.objects.filter(group__name=hg)
-                for h in members:
-                    ret_h = {'hostname': h.hostname, 'ipaddr': h.ip}
-                    ret_hg['members'].append(ret_h)
-                d.append(ret_hg)
-            return HttpResponse(json.dumps(d))
-        else:
-            ret_hg = {'host_group': group_name, 'members': []}
-            members = Host.objects.filter(group__name=group_name)
-            for h in members:
-                ret_h = {'hostname': h.hostname, 'ipaddr': h.ip}
-                ret_hg['members'].append(ret_h)
-            d.append(ret_hg)
-            return HttpResponse(json.dumps(d))
-    return HttpResponse(status=403)
+# 对于http接口，需要做认证，采用token方式
+def host_add(request):
+    if request.method == 'POST':
+        # 接收post过来的json数据
+        recevied_data = json.loads(request.body)
+        if recevied_data['token'] == app_token:
+            host = recevied_data['host']
+            Host.objects.create(**host)
+            return HttpResponse(json.dumps(host))
+
+    elif request.method == "GET":
+        return HttpResponse(status=403)
+
+
+def host_update(request, intranet_ip):
+    if request.method == 'POST':
+        # 将接收的二进制转化为字典
+        recevied_data = json.loads(request.body)
+        if recevied_data['token'] == app_token:
+            update_host = recevied_data['host']
+            Host.objects.filter(intranet_ip=intranet_ip).update(hostname=update_host['hostname'],os=update_host['os'], cpu_model=update_host['cpu_model'], cpu_num=update_host['cpu_num'],
+                                      memory=update_host['memory'], disk=update_host['disk'], intranet_ip=update_host['intranet_ip'], internet_ip=update_host['internet_ip'], idc_id=update_host['idc_id'])
+            return HttpResponse(update_host)
+
+    elif request.method == "GET":
+        return HttpResponse(status=403)
+
+def host_search(request):
+    if request.method == 'POST':
+        recevied_data = json.loads(request.body)
+        intranet_ip= recevied_data['intranet_ip']
+
+        if recevied_data['token'] == app_token:
+            host = Host.objects.filter(intranet_ip=intranet_ip)
+            if host.exists():
+                dict = {}
+                dict.update(host[0].__dict__)
+                dict.pop("_state", None)
+                data = {
+                    'host': dict,
+                    'code': 200
+                }
+                return HttpResponse(json.dumps(data))
+            else:
+                data = {
+                    'code': 404
+                }
+                return HttpResponse(json.dumps(data))
+    elif request.method == 'GET':
+        return HttpResponse(status=403)

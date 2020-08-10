@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../adminset/.idea/adminset.iml" filepath="$PROJECT_DIR$/../adminset/.idea/adminset.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../huanbao/.idea/huanbao.iml" filepath="$PROJECT_DIR$/../huanbao/.idea/huanbao.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../jumpserver/.idea/jumpserver.iml" filepath="$PROJECT_DIR$/../jumpserver/.idea/jumpserver.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/pyops.iml" filepath="$PROJECT_DIR$/.idea/pyops.iml" />
     </modules>
   </component>

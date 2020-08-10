@@ -30,7 +30,7 @@ def article(request):
             Q(commit_time__contains=keyword) |
             Q(content__contains=keyword))
 
-    # 分写的对象
+    # 分页对象
     article_list, p, article_list, page_range, current_page, show_first, show_end, end_page = pages(article_list, request)
     return render(request, "wiki/article.html", locals())
 

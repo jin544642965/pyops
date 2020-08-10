@@ -30,7 +30,7 @@
             <div class="box">
                 <div class="box-header">
                     <div class="btn-group">
-						 <a id="idcadd" href="{% url 'idc_add' %}" class="btn btn-success" style="display: none">添加机房</a>
+						 <a id="idc_add" href="{% url 'idc_add' %}" class="btn btn-success" style="display: none">添加机房</a>
                   </div>
                 </div>
                 <!-- /.box-header -->
@@ -56,7 +56,6 @@
                                     <tr class="even gradeA">
                                         <td><input type="checkbox" id="u_id" class="item1" value="{{ idc.id }}" name="idc_check" /></td>
                                         <td><a href="#"><li style="list-style-type:none" onclick="" value="{{ idc.id }}">{{ idc.name }}</li></a> </td>
-
                                         <td>{{ idc.tel }}</td>
                                         <td>{{ idc.contact }}</td>
                                         <td>{{ idc.contact_phone }}</td>
@@ -116,17 +115,7 @@ function checkSubmit() {
     }
 }
 </script>
-<script>
-function popWin(idc_id){
-  layer.open({
-      type: 2,
-      title: '机柜列表',
-      area: ['700px', '500px'],
-      shadeClose: true, //点击遮罩关闭
-      content: ['/cmdb/idccabinetlist/' + idc_id]
-  });
-}
-</script>
+
 <script>
 function tanchu(n){
   layer.open({

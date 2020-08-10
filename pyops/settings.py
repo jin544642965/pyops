@@ -38,19 +38,26 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',  # 静态文件查找
     'apps.cmdb',
+    'apps.app_manage',
     'apps.navi',
     'apps.accounts',
     'apps.config',
     'apps.wiki',
-    'apps.file',
+    'apps.netdisk',
+    'apps.data_manage',
     'mdeditor',
+
+
 ]
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+   # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -86,7 +93,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'pyops',
         'USER': 'root',
-        'PASSWORD': 'root',
+        'PASSWORD': 'asaf@Wdd123',
         'HOST': 'localhost'
     }
 }

@@ -11,7 +11,9 @@ class AssetForm(forms.ModelForm):
         exclude = ("id",)
         widgets = {
             'hostname': TextInput(attrs={'class': 'form-control', 'style': 'width:530px;', 'placeholder': u'必填项'}),
-            'ip': TextInput(attrs={'class': 'form-control', 'style': 'width:530px;', 'placeholder': u'必填项'}),
+            'internet_ip': TextInput(attrs={'class': 'form-control', 'style': 'width:530px;'}),
+            'intranet_ip': TextInput(attrs={'class': 'form-control', 'style': 'width:530px', 'placeholder': "必填项"}),
+            'account': Select(attrs={'class': 'form-control', 'style': 'width:530px', 'placeholder': "必填项"}),
             'asset_type': Select(attrs={'class': 'form-control', 'style': 'width:530px;'}),
             'os': TextInput(attrs={'class': 'form-control', 'style': 'width:530px;'}),
             'vendor': TextInput(attrs={'class': 'form-control', 'style': 'width:530px;'}),

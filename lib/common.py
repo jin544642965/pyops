@@ -1,30 +1,52 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
-import json
 
-from django.http import HttpResponse
-from apps.config.views import get_dir
+import jwt
+import datetime
+from jwt import exceptions
+
+app_token = 'AT_ZnmHbwWYzrxjIEyQni4miU72dcLy43WW'
+JWT_SALT = 'helloworld'
 
 
-def token_verify():
-    def decorator(view_func):
-        def _wrapped_view(request, *args, **kwargs):
-            set_token = get_dir('token')
-            error_info = "Post forbidden, your token error!!"
-            if request.method == 'POST':
-                post_token = json.loads(request.body)
-                if set_token == post_token["token"]:
-                    return view_func(request, *args, **kwargs)
-                else:
-                    return HttpResponse(error_info, status=403)
-            if request.GET:
-                post_token = request.GET['token']
-                if set_token == post_token:
-                    return view_func(request, *args, **kwargs)
-                else:
-                    return HttpResponse(error_info, status=403)
-            return HttpResponse(error_info, status=403)
+def create_token():
 
-        return _wrapped_view
 
-    return decorator
+    # 构造header
+    headers = {
+        'typ': 'jwt',
+        'alg': 'HS256'
+    }
+
+    # 构造payload
+    payload = {
+        'user_id': 1,
+        'username': 'admin',
+        'exp': datetime.datetime.utcnow() + datetime.timedelta(days=5)
+    }
+    result = jwt.encode(payload=payload, key=JWT_SALT, algorithm='HS256', headers=headers).decode('utf8')
+    return result
+
+
+def parse_payload(token):
+    result = {'status': False, 'data': None, 'error': None}
+
+    try:
+        verified_payload = jwt.decode(token, JWT_SALT, True)
+        result['status'] = True
+        result['data'] = verified_payload
+    except exceptions.ExpiredSignatureError:
+        result['error'] = 'token已失效 '
+    except jwt.DecodeError:
+        result['error'] = 'token认证失败'
+    except jwt.InvalidTokenError:
+        result['error'] = '非法的token'
+    return result
+
+if __name__ == '__main__':
+    token = create_token()
+    print(token)
+    print()
+
+    print(parse_payload(token))
+

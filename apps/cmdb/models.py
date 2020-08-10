@@ -1,5 +1,5 @@
 from django.db import models
-
+from apps.app_manage.models import Certificate
 # Create your models here.
 
 ASSET_TYPE = (
@@ -33,8 +33,10 @@ class Idc(models.Model):
 
 class Host(models.Model):
     hostname = models.CharField(max_length=50, verbose_name=u"主机名", unique=True)
-    ip = models.GenericIPAddressField(u"管理IP", max_length=15)
-    # account = models.ForeignKey(AuthInfo, verbose_name=u"账号信息", on_delete=models.SET_NULL, null=True, blank=True)
+    internet_ip = models.GenericIPAddressField(u"外网IP", max_length=15)
+    intranet_ip = models.GenericIPAddressField("内网IP", max_length=15)
+    account = models.ForeignKey(Certificate, verbose_name="账号信息", on_delete=models.SET_NULL, null=True, blank=True)
+
     idc = models.ForeignKey(Idc, verbose_name=u"所在机房", on_delete=models.SET_NULL, null=True, blank=True)
     asset_type = models.CharField(u"设备类型", choices=ASSET_TYPE, max_length=30, null=True, blank=True)
     os = models.CharField(u"操作系统", max_length=100, blank=True)

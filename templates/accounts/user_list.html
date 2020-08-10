@@ -136,25 +136,6 @@ function tanchu(n){
 }
 </script>
 <script>
-    function change_info(){
-        var args = $("#user_form").serialize();
-        window.location = "{% url 'cmdb' %}?" + args
-    }
-
-    function export_excel(){
-        var user_id_all = getIDall();
-        if (user_id_all == ''){
-            if(confirm('您没有勾选，是否导出全部信息？')){
-                var args = $("#user_form").serialize();
-                window.location = "{% url 'cmdb' %}?export=all&" + args
-                }else{
-                    return false;
-                }
-            }else{
-                var args = $("#user_form").serialize();
-                window.location = "{% url 'cmdb' %}?export=true&" + args
-            }
-    }
     $("#search_input").keydown(function(e) {
         if (e.keyCode == 13) {
             change_info()
