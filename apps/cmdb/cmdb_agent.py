@@ -23,7 +23,7 @@ pwd_dir = os.path.dirname(os.path.abspath(__file__))
 
 # cmdb server url
 
-server_url = 'http://demo-pyops.fskangda.com/cmdb/api'
+server_url = 'http://demo-pyops.fskangda.com:8001/cmdb/api'
 
 # logging.basicConfig(level=logging.INFO,
 #                     format='%(asctime)s [%(levelname)s] %(message)s',
