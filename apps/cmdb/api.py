@@ -119,5 +119,10 @@ def host_search(request):
                     'code': 404
                 }
                 return HttpResponse(json.dumps(data))
+        else:
+            data = {
+                'error': "token错误"
+            }
+            return HttpResponse(json.dumps(data))
     elif request.method == 'GET':
         return HttpResponse(status=403)
