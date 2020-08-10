@@ -9,3 +9,4 @@ http://demo-pyops.fskangda.com:8001
 每20分钟重置一次数据
 
 汇集常用功能：
+cmdb、wiki、网盘、用户管理
