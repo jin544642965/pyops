@@ -86,8 +86,8 @@ class Mysql:
             self.db.close
 
 def sync(table,sql):
-    p_conn = Mysql(host='134.175.34.237', port=906, user='ehuzhu_dba', password='kdo!IOL2343@s3a', database='ehuzhu')
-    t_conn = Mysql(host='134.175.34.237', port=907, user='ehuzhu_dba', password='kdo!IOL2343@s3a', database='ehuzhu')
+    p_conn = Mysql(host='127.0.0.1', port=906, user='ehuzhu_dba', password='123456', database='ehuzhu')
+    t_conn = Mysql(host='127.0.0.1', port=907, user='ehuzhu_dba', password='123456', database='ehuzhu')
 
     p_data = p_conn.fetch_all(table, sql)
     t_conn.insert_many(table, p_data)
@@ -118,7 +118,7 @@ def start_sync(mobile_no):
 
     
     #从生产查：memberid
-    p_conn = Mysql(host='134.175.34.237',port=906, user='ehuzhu_dba', password='kdo!IOL2343@s3a', database='ehuzhu')
+    p_conn = Mysql(host='127.0.0.1',port=906, user='ehuzhu_dba', password='123456', database='ehuzhu')
     sql_member = "select * from member where mobileNo='%s'" % mobile_no
     member_list = p_conn.fetch_all('member', sql_member)
 
@@ -132,7 +132,7 @@ def start_sync(mobile_no):
 
     
     #从生产查：family_account_id
-    p_conn =  Mysql(host='134.175.34.237', port=906, user='ehuzhu_dba', password='kdo!IOL2343@s3a', database='ehuzhu')
+    p_conn =  Mysql(host='127.0.0.1', port=906, user='ehuzhu_dba', password='123456', database='ehuzhu')
     sql_fa_family_account = "select * from fa_family_account where manager_id='%s'" % member_id
     family_account_list = p_conn.fetch_all('fa_family_account', sql_fa_family_account)
 
