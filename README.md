@@ -20,5 +20,7 @@ cmdb、wiki、网盘、用户管理
 安装
 cd /opt/py_env
 virtualenv --python=python3.6 pyops
+
 source py_env/pyops/bin/activate
+
 pip install -r requirements.txt
