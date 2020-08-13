@@ -17,3 +17,8 @@ cmdb/cmdb_agent.py的token
 汇集常用功能：
 cmdb、wiki、网盘、用户管理
 
+安装
+cd /opt/py_env
+virtualenv --python=python3.6 pyops       #安装python几的环境
+source py_env/pyops/bin/activate
+pip install -r requirements.txt
