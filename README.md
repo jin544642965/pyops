@@ -37,4 +37,11 @@ source /opt/py_env/pyops/bin/activate
 cd /opt/pyops
 pip install -r requirements.txt
 
+二、mysql安装
+create database pyops default character set utf8 collate utf8_general_ci;
 
+三、应用配置.
+# 生成安装
+python3 manage.py makemigrations 
+#   同步数据库
+python3 manage.py migrate      
