@@ -3,6 +3,10 @@
 # pyops
 运维自动化平台
 
+环境准备:
+1.MYSQL
+
+
 
 demo
 http://demo-pyops.fskangda.com:8001(停用)
