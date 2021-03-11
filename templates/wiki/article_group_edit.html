@@ -1,43 +1,32 @@
 {% extends 'base.html' %}
-
 {% block content %}
 <script>
     window.onload=init;
     function init() {
-        showhide();
+        showhide(1);
     }
-    function showhide() {
+    function showhide(n) {
         var box = document.getElementById("wiki");
         box.className="active";
-        var box2 = document.getElementById("article");
+        var box2 = document.getElementById("article_group");
         box2.className="active";
     }
 </script>
-
-
   <div class="content-wrapper">
        <!-- Content Header (Page header) -->
 
       <!-- Main content -->
     <section class="content">
-    <div class="box">
-        <div class="box-header with-border">
-        </div>
-
-    <div class="box-body">
-       <form method="post" action="/wiki/article/add">
+    <div>
+       <form method="post" action="/wiki/article_group/edit?id={{id}}">
             {% csrf_token %}
-            {{ form.media }}
-            {{ form.as_p }}
+            {{ article_group_form.media }}
+            {{ article_group_form.as_p }}
             <p><input type="submit" value="保存"></p>
-       </form>
+        </form>
     </div>
-    <div class="box-footer">
-          <i class="fa fa-info-circle"></i> 请勿重复添加条目,不建议使用中文。
-    </div>
+
       <!-- Your Page Content Here -->
-     </div>
-        <!-- /.box -->
     </section>
     <!-- /.content -->
 

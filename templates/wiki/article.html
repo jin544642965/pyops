@@ -11,9 +11,9 @@
 <script>
     window.onload=init;
     function init() {
-        showhide(2);
+        showhide();
     }
-    function showhide(n) {
+    function showhide() {
         var box = document.getElementById("wiki");
         box.className="active";
         var box2 = document.getElementById("article");
@@ -53,10 +53,10 @@
                   </div>
                     <div class="btn-group">
                                 <label>
-                                    <select name="article_type" class="form-control m-b input-sm" onchange="change_info()">
+                                    <select name="article_group" class="form-control m-b input-sm" onchange="change_info()">
                                         <option value="">文章类型</option>
-                                        {% for a in article_type_all %}
-                                            {% ifequal a.name article_type_name %}
+                                        {% for a in article_group_all %}
+                                            {% ifequal a.name article_group_name %}
                                                 <option value="{{a.name}}" selected> {{ a.name|slice:":20" }}</option>
                                             {% else %}
                                                 <option value="{{a.name}}"> {{ a.name|slice:":20" }}</option>

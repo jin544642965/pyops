@@ -28,6 +28,7 @@ def TimeStampToTime(timestamp):
 
 
 def getdirsize(dir):
+
    size = 0
    for root, dirs, files in os.walk(dir):
       size += sum([os.path.getsize(os.path.join(root, name)) for name in files])
@@ -36,7 +37,7 @@ def getdirsize(dir):
 
 @login_required()
 @permission_verify()
-def folder(request):
+def folder_manage(request):
     physical_path = "uploads/dropbox"
     isExists = os.path.exists(physical_path)
     if not isExists:
@@ -66,7 +67,7 @@ def folder(request):
 
     # 分写的对象
     document_list, p, document_list, page_range, current_page, show_first, show_end, end_page = pages(document_list, request)
-    return render(request, 'netdisk/folder.html', locals())
+    return render(request, 'netdisk/folder_manage.html', locals())
 
 
 @login_required()

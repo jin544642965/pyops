@@ -11,7 +11,7 @@ class MDEditorModelForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(MDEditorModelForm, self).__init__(*args, **kwargs)
-		# 表单隐藏作者字段
+	    # 表单隐藏作者字段
         self.fields['author'].widget = HiddenInput()
 
 

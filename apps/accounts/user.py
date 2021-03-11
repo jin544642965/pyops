@@ -48,7 +48,7 @@ def change_password(request):
         form = ChangePasswordForm(user=request.user, data=request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('user_list'))
+            return HttpResponseRedirect(reverse('user_manage'))
     else:
         form = ChangePasswordForm(user=request.user)
     kwargs = {
@@ -60,12 +60,12 @@ def change_password(request):
 
 @login_required()
 @permission_verify()
-def user_list(request):
+def user_manage(request):
     all_user = get_user_model().objects.all()
     kwargs = {
         'all_user':  all_user,
     }
-    return render(request, 'accounts/user_list.html', kwargs)
+    return render(request, 'accounts/user_manage.html', kwargs)
 
 
 @login_required()
@@ -77,7 +77,7 @@ def user_add(request):
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
             form.save()
-            return HttpResponseRedirect(reverse('user_list'))
+            return HttpResponseRedirect(reverse('user_manage'))
     else:
         form = AddUserForm()
     kwargs = {
@@ -92,7 +92,7 @@ def user_add(request):
 def user_del(request, ids):
     if ids:
         get_user_model().objects.filter(id=ids).delete()
-    return HttpResponseRedirect(reverse('user_list'))
+    return HttpResponseRedirect(reverse('user_manage'))
 
 
 @login_required

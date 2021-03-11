@@ -1,21 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="pyops">
+  <component name="PublishConfigData" autoUpload="Always" serverName="pyops" remoteFilesAllowedToDisappearOnAutoupload="false">
     <serverData>
-      <paths name="huanbao">
-        <serverdata>
-          <mappings>
-            <mapping deploy="/" local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="openstack">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
       <paths name="pyops">
         <serverdata>
           <mappings>
@@ -23,7 +9,7 @@
           </mappings>
         </serverdata>
       </paths>
-      <paths name="test_py">
+      <paths name="spug-api">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />

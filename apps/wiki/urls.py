@@ -8,9 +8,9 @@ urlpatterns = [
     path('article/del', article.article_del, name='article_del'),
     path('article/detail', article.article_detail, name='article_detail'),
 
-    path('article_type', article.article_type, name='article_type'),
-    path('article_type/add', article.article_type_add, name='article_type_add'),
-    path('article_type/edit', article.article_type_edit, name='article_type_edit'),
-    path('article_type/del', article.article_type_del, name='article_type_del'),
+    path('article_group', article.article_group, name='article_group'),
+    path('article_group/add', article.article_group_add, name='article_group_add'),
+    path('article_group/edit', article.article_group_edit, name='article_group_edit'),
+    path('article_group/del', article.article_group_del, name='article_group_del'),
 ]
 

@@ -1,0 +1,226 @@
+{% extends 'base.html' %}
+{% block self_head_css_js %}
+    <script src="/static/layer/layer.js"></script>
+    <script src="/static/js/base.js"></script>
+    <script src="/static/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="/static/plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="/static/plugins/datatables/dataTables.bootstrap.css"></script>
+
+{% endblock %}
+{% block content %}
+<script>
+    window.onload=init;
+    function init() {
+        showhide(2);
+    }
+    function showhide(n) {
+        var box1 = document.getElementById("netdisk");
+        box1.className="active";
+        var box2 = document.getElementById("folder_manage");
+        box2.className="active";
+    }
+</script>
+
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+            <div class="box">
+                <form action="/folder_add/" method="post" id="file_form">
+                {% csrf_token %}
+                        <div class="box-header">
+                            <div class="btn-group">
+
+                                 <button type="button" id="modalBtn" class="btn btn-primary" onclick="return tanchu()">新建资料库</button>
+                            </div>
+
+                            <div class="btn-group" style="padding-left: 0">
+                            </div>
+                                <div id="export"></div>
+                        </div>
+                </form>
+                <!-- /.box-header -->
+            <div class="col-md-5">
+            </div>
+                <div class="box-body">
+
+                <label for="page_len">
+                    <select name="page_len" id="page_len" class="form-control m-b input-sm" onchange="change_info()">
+                        {% ifequal page_len '10' %}
+                            <option value="10" selected>10</option>
+                        {% else %}
+                            <option value="10">10</option>
+                        {% endifequal %}
+                        {% ifequal page_len '20' %}
+                            <option value="20" selected>20</option>
+                        {% else %}
+                            <option value="20">20</option>
+                        {% endifequal %}
+                        {% ifequal page_len '50' %}
+                            <option value="50" selected>50</option>
+                        {% else %}
+                            <option value="50">50</option>
+                        {% endifequal %}
+                        {% ifequal page_len '100' %}
+                            <option value="100" selected>100</option>
+                        {% else %}
+                            <option value="100">100</option>
+                        {% endifequal %}
+                        {% ifequal page_len '200' %}
+                            <option value="200" selected>200</option>
+                        {% else %}
+                            <option value="200">200</option>
+                        {% endifequal %}
+                    </select>
+                            </label>
+
+                  <table class="table table-striped table-bordered" id="dataform">
+                      <thead>
+                        <tr>
+                            <th>
+                                <input id="checkall" type="checkbox" class="i-checks" name="checkall" value="checkall" data-editable='false' onclick="check_all('file_form')">
+                            </th>
+                                    <th>类型</th>
+                                    <th>我的资料库</th>
+                                    <th>大小</th>
+                                    <th>更新时间</th>
+                                    <th class="text-center">功能</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for document, content in document_dict.items %}
+                                    <tr class="even gradeX">
+                                        <td><input type="checkbox" id="id_{{document}}" class="i-checks" value="id_{{ document }}" name="id_{{document}}" /></td>
+                                        <td><i class="fa fa-folder-o" aria-hidden="true"></i></td>
+                                        <td><a id="{{content.uuid}}" href="/netdisk/folder/{{document}}">{{ document }}</a></td>
+                                        <td>{{content.document_size}}</td>
+                                        <td>{{content.document_time}}</td>
+                                        <td class="text-center" data-editable='false'>
+                                            <div align="center">
+                                            <a id="folder_edit_{{content.uuid}}" style="display: block; float:left; margin: auto;" href="javascript:void(0)" onclick="folder_edit(this.id);" class="btn btn-sm btn-info" >重命名</a>
+                                            <a id="folder_del_{{content.uuid}}" style="display: block; float:left; margin: auto;" href="{% url 'folder_del' %}?document={{document}}" onclick="return checkSubmit()"><span class="btn btn-sm btn-danger ">删除</span></a>
+                                            </div>
+                                        </td>
+                                        </tr>
+                                {% endfor %}
+                            </tbody>
+                  </table>
+                <div class="row" style="width: auto">
+                    {% include 'paginator.html' %}
+                </div>
+
+                </div>
+
+            </div>
+
+
+
+
+    </section>
+        <!-- /.content -->
+{#用于接收folder_add.html中layui子层的传值#}
+<input id="handle_status" value="" hidden="hidden">
+</div>
+<script>
+  $(function () {
+    $('#dataform').DataTable({
+      "paging": false,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": false,
+      "bAutoWidth": false,
+      "bStateSave": true,
+    });
+  });
+</script>
+
+<script>
+function checkSubmit() {
+    if (!confirm("确定删除？")) {
+        window.event.returnValue = false;
+    }
+}
+</script>
+<script>
+function tanchu(){
+    var local_path =  window.location.pathname
+
+    layer.open({
+    type: 2,
+    title: '添加资料库',
+    closeBtn: 1,
+    area: ['700px', '550px'],
+    shadeClose: true, //点击遮罩关闭
+    content: [local_path + 'add'],
+  });
+}
+
+function folder_edit(folder_edit_id){
+
+    var index = folder_edit_id.lastIndexOf("_")
+    var mydocument_id = folder_edit_id.substring(index+1, folder_edit_id.length);
+    var mydocument_select = $('#' + mydocument_id)
+    //替换标签
+    mydocument_select.replaceWith("<div id=div_" + mydocument_id + "><input id=" + mydocument_id + " value=" +  mydocument_select.text() + " >" + "<button name=" + mydocument_select.text() + " id=commit_" + mydocument_id + " onclick='commit(this.id, this.name);'><i class=\"fa fa-check\" aria-hidden=\"true\"></i></button><button type='reset'><i class=\"fa fa-times\" aria-hidden=\"true\"></i></button></div>")
+}
+
+function commit(commit_document, document_name){
+    var index = commit_document.lastIndexOf("_")
+    var mydocument_id  = commit_document.substring(index+1, commit_document.length);
+    var document_newname = $('#' + mydocument_id ).val();
+    var local_path =  window.location.pathname
+
+    $.ajax({
+        type:"POST",
+        dataType:"json",
+        url: local_path + 'edit',
+        data:{"document_newname": document_newname, "document_name": document_name},
+        success: function (data) {
+            if(data.result){
+                $('#div_' + mydocument_id).replaceWith('<a id=' + mydocument_id + ' href=/netdisk/folder/' + document_newname + '>' + document_newname + '</a>')
+
+                $('#folder_del_' + mydocument_id).replaceWith('<a id="folder_del_' + mydocument_id + '" style="display: block; float:left; margin: auto;" href="/netdisk/folder/del?document=' + document_newname + '" onclick="return checkSubmit()"><span class="btn btn-sm btn-danger ">删除</span></a>')
+
+            }
+            else{
+                alert('fail');
+            }
+        },
+        error: function (data) {
+            alert("进入error方法");
+        },
+
+        }
+    );
+}
+
+</script>
+
+
+<script>
+    function change_info(){
+        var args = $("#file_form").serialize();
+        window.location = "{% url 'article' %}?" + args
+    }
+
+
+    $("#search_input").keydown(function(e) {
+        if (e.keyCode == 13) {
+            change_info()
+        }
+        });
+
+</script>
+<script>
+
+
+</script>
+
+
+{% endblock %}

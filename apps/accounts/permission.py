@@ -23,10 +23,10 @@ def permission_verify():
                     return HttpResponseRedirect(reverse('permission_deny'))
 
                 role_permission = RoleList.objects.get(name=iUser.role)
-                role_permission_list = role_permission.permission.all()
+                role_permission_manage = role_permission.permission.all()
 
                 matchUrl = []
-                for x in role_permission_list:
+                for x in role_permission_manage:
                     # 精确匹配，判断request.path是否与permission表中的某一条相符
                     if request.path == x.url or request.path.rstrip('/') == x.url:
                         matchUrl.append(x.url)
@@ -64,7 +64,7 @@ def permission_add(request):
         form = PermissionListForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('permission_list'))
+            return HttpResponseRedirect(reverse('permission_manage'))
     else:
         form = PermissionListForm()
 
@@ -78,9 +78,9 @@ def permission_add(request):
 
 @login_required
 @permission_verify()
-def permission_list(request):
+def permission_manage(request):
     all_permission = PermissionList.objects.all()
-    return render(request, 'accounts/permission_list.html', locals())
+    return render(request, 'accounts/permission_manage.html', locals())
 
 
 @login_required
@@ -92,7 +92,7 @@ def permission_edit(request, ids):
         form = PermissionListForm(request.POST, instance=iPermission)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('permission_list'))
+            return HttpResponseRedirect(reverse('permission_manage'))
     else:
         form = PermissionListForm(instance=iPermission)
 
@@ -110,7 +110,7 @@ def permission_edit(request, ids):
 def permission_del(request, ids):
     PermissionList.objects.filter(id=ids).delete()
 
-    return HttpResponseRedirect(reverse('permission_list'))
+    return HttpResponseRedirect(reverse('permission_manage'))
 
 
 @login_required
@@ -120,8 +120,8 @@ def get_user_permission(request):
     iUser = UserInfo.objects.get(username=request.user)
     try:
         role_permission = RoleList.objects.get(name=iUser.role)
-        role_permission_list = role_permission.permission.all()
-        for p in role_permission_list:
+        role_permission_manage = role_permission.permission.all()
+        for p in role_permission_manage:
             d = p.url
             ret.append(d)
     except:

@@ -11,14 +11,14 @@ from django.db.models import Q
 @login_required()
 @permission_verify()
 def article(request):
-    article_type_all = ArticleType.objects.all()
+    article_group_all = ArticleType.objects.all()
     id = request.GET.get("id")
-    article_type_name = request.GET.get('article_type', '')
+    article_group_name = request.GET.get('article_group', '')
     keyword = request.GET.get('keyword', '')
 
-    if article_type_name:
-        article_type_obj = ArticleType.objects.get(name=article_type_name)
-        article_list = Article.objects.filter(article_type_id=article_type_obj.id)  # 这里不能用get，get只返回一条记录，filter支持多条记录
+    if article_group_name:
+        article_group_obj = ArticleType.objects.get(name=article_group_name)
+        article_list = Article.objects.filter(article_group_id=article_group_obj.id)  # 这里不能用get，get只返回一条记录，filter支持多条记录
     else:
         article_list = Article.objects.all().order_by("-id")
 
@@ -104,41 +104,41 @@ def article_detail(request):
 
 @login_required()
 @permission_verify()
-def article_type(request):
+def article_group(request):
     allgroup = ArticleType.objects.all()
-    return render(request, "wiki/article_type.html", locals())
+    return render(request, "wiki/article_group.html", locals())
 
 
 @login_required()
 @permission_verify()
-def article_type_add(request):
+def article_group_add(request):
     if request.method == "POST":
-        article_type_form = ArticleTypeForm(request.POST)
-        if article_type_form.is_valid():
-            article_type_form.save()
-            return HttpResponseRedirect(reverse(article_type))
-    article_type_form = ArticleTypeForm()
-    return render(request, 'wiki/article_type_add.html', locals())
+        article_group_form = ArticleTypeForm(request.POST)
+        if article_group_form.is_valid():
+            article_group_form.save()
+            return HttpResponseRedirect(reverse(article_group))
+    article_group_form = ArticleTypeForm()
+    return render(request, 'wiki/article_group_add.html', locals())
 
 
 @login_required()
 @permission_verify()
-def article_type_edit(request):
+def article_group_edit(request):
     id = request.GET.get('id')
     project = ArticleType.objects.get(id=id)
     if request.method == "POST":
-        article_type_form = ArticleTypeForm(request.POST, instance=project) # 创建一个form实例
-        if article_type_form.is_valid():
-            article_type_form.save()
-            return HttpResponseRedirect(reverse(article_type))
+        article_group_form = ArticleTypeForm(request.POST, instance=project) # 创建一个form实例
+        if article_group_form.is_valid():
+            article_group_form.save()
+            return HttpResponseRedirect(reverse(article_group))
     elif request.method == "GET":
-        article_type_form = ArticleTypeForm(instance=project)
-        return render(request, 'wiki/article_type_edit.html', locals())
+        article_group_form = ArticleTypeForm(instance=project)
+        return render(request, 'wiki/article_group_edit.html', locals())
 
 
 @login_required()
 @permission_verify()
-def article_type_del(request):
+def article_group_del(request):
     group_id = request.GET.get('id', '')
     if group_id:
         ArticleType.objects.filter(id=group_id).delete()
@@ -149,6 +149,6 @@ def article_type_del(request):
             for n in group_items:
                 ArticleType.objects.filter(id=n).delete()
     allgroup = ArticleType.objects.all()
-    return render(request, 'wiki/article_type.html', locals())
+    return render(request, 'wiki/article_group.html', locals())
 
 

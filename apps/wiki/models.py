@@ -1,6 +1,6 @@
 from django.db import models
 from mdeditor.fields import MDTextField
-
+from django.core import validators
 
 class ArticleType(models.Model):
     name = models.CharField("分类名称", max_length=20)       # 默认必填
@@ -16,10 +16,11 @@ class Article(models.Model):
     content = MDTextField(verbose_name='内容')     # 内容
     article_type = models.ForeignKey(
             ArticleType,
-            blank=True,
+            blank=False,
             verbose_name="文章分类",
             on_delete=models.CASCADE,
-            default=""
+            default="",
+
     )
 
 

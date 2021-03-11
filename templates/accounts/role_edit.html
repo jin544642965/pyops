@@ -13,7 +13,7 @@
     function showhide(n) {
         var box = document.getElementById("accounts");
         box.className="active";
-        var box2 = document.getElementById("rolelist");
+        var box2 = document.getElementById("role_manage");
         box2.className="active";
     }
 </script>
@@ -36,7 +36,7 @@
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" class="btn btn-primary" style="width: 60pt" value="提交">&nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="{% url 'role_list' %}"><li style="width: 60pt" class="btn btn-primary" value="">返回</li></a><br>
+        <a href="{% url 'role_manage' %}"><li style="width: 60pt" class="btn btn-primary" value="">返回</li></a><br>
           </form>
         </div>
         <!-- /.box-body -->

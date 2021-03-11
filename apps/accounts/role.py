@@ -17,7 +17,7 @@ def role_add(request):
         form = RoleListForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('role_list'))
+            return HttpResponseRedirect(reverse('role_manage'))
     else:
         form = RoleListForm()
 
@@ -31,9 +31,9 @@ def role_add(request):
 
 @login_required
 @permission_verify()
-def role_list(request):
+def role_manage(request):
     all_role = RoleList.objects.all()
-    return render(request, 'accounts/role_list.html', locals())
+    return render(request, 'accounts/role_manage.html', locals())
 
 
 @login_required
@@ -44,7 +44,7 @@ def role_edit(request, ids):
         form = RoleListForm(request.POST, instance=iRole)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('role_list'))
+            return HttpResponseRedirect(reverse('role_manage'))
     else:
         form = RoleListForm(instance=iRole)
 
@@ -61,5 +61,5 @@ def role_edit(request, ids):
 @permission_verify()
 def role_del(request, ids):
     RoleList.objects.filter(id=ids).delete()
-    return HttpResponseRedirect(reverse('role_list'))
+    return HttpResponseRedirect(reverse('role_manage'))
 

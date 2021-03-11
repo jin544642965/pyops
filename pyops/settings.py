@@ -37,14 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',  # 静态文件查找
+    'apps.accounts',
     'apps.cmdb',
     'apps.app_manage',
     'apps.navi',
-    'apps.accounts',
-    'apps.config',
     'apps.wiki',
+    'apps.file',
     'apps.netdisk',
-    'apps.data_manage',
     'mdeditor',
 
 
@@ -93,8 +92,11 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'pyops',
         'USER': 'root',
-        'PASSWORD': 'asaf@Wdd123',
-        'HOST': 'localhost'
+        'PASSWORD': 'b9LdPvwyZEW>=o',
+        'HOST': 'localhost',
+        'OPTIONS': {
+            "init_command": "SET foreign_key_checks = 0;",
+        }
     }
 }
 

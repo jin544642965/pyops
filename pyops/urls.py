@@ -24,14 +24,14 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='index'),
     path('accounts/', include('apps.accounts.urls')),
+    path('app_manage/', include('apps.app_manage.urls')),
     path('cmdb/', include('apps.cmdb.urls')),
     path('navi/', include('apps.navi.urls')),
     path('wiki/', include('apps.wiki.urls')),
     path('netdisk/', include('apps.netdisk.urls')),
     # 富文本编辑器pip install django-mdeditor
     path('mdeditor/', include('mdeditor.urls')),
-    path('data_manage/', include('apps.data_manage.urls')),
-    path('app_manage/', include('apps.app_manage.urls'))
+
 ]
 
 if settings.DEBUG:

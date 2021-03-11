@@ -2,8 +2,9 @@ from django.urls import path, re_path
 from apps.netdisk import netdisk
 
 urlpatterns = [
+
     # 资料库添加
-    path('folder/', netdisk.folder, name='folder'),
+    path('folder/', netdisk.folder_manage, name='folder_manage'),
     path('folder/add', netdisk.folder_add, name="folder_add"),   # 和下面的parent有点冲突，所以精确匹配，最后面加/
     path('folder/del', netdisk.folder_del, name="folder_del"),
     path('folder/edit', netdisk.folder_edit, name="folder_edit"),
