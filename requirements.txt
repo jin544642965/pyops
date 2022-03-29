@@ -9,7 +9,7 @@ django-mdeditor==0.1.13
 elastic-apm==5.1.2
 lxml==4.5.2
 Markdown==3.0.1
-paramiko==2.7.1
+paramiko==2.10.1
 psutil==5.7.2
 pycparser==2.20
 PyDispatcher==2.0.5
