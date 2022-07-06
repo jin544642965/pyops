@@ -7,7 +7,7 @@ Django==2.0.6
 django-cors-headers==3.3.0
 django-mdeditor==0.1.13
 elastic-apm==5.1.2
-lxml==4.5.2
+lxml==4.9.1
 Markdown==3.0.1
 paramiko==2.7.1
 psutil==5.7.2
